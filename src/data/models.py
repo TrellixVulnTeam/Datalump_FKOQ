@@ -4,7 +4,8 @@ from django.db import models
 
 
 class Organization(models.Model):
-
+	established_on = models.DateField()
+	terminated_on = models.DateField(null=True)
 
 	class Meta():
 		db_table = 'organizations'
@@ -46,6 +47,131 @@ class OrganizationAddress(models.Model):
 		db_table = 'organization_address_entries'
 
 
+class LegalForms(models.Model):
+	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+	name = models.CharField(max_length=128)
+	effective_from = models.DateField()
+	effective_to = models.DateField()
+
+	class Meta():
+		db_table = 'organization_legal_forms'
+
+
+class OrganizationLegalForms(models.Model):
+	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+	legal_form_id = models.ForeignKey(LegalForms, null=True, on_delete=models.DO_NOTHING)
+	effective_from = models.DateField()
+	effective_to = models.DateField(null=True)
+
+	class Meta():
+		db_table = 'organization_legal_forms_entries'
+
+
+class OrganizationLegalStatus(models.Model):
+	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+	body = models.CharField(max_length=128)
+	effective_from = models.DateField()
+	effective_to = models.DateField(null=True)
+
+	class Meta():
+		db_table = 'organization_legal_status_entries'
+
+
+class MainActivityCodes:
+	name = models.CharField()
+
+	class Meta():
+		db_table = 'main_activity_codes'
+
+
+class OrganizationEconomicActivity(models.Model):
+	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+	description = models.CharField(max_length=128)
+	effective_from = models.DateField()
+	effective_to = models.DateField(null=True)
+	suspended_from = models.DateField(null=True)
+	suspended_to = models.DateField(null=True)
+
+	class Meta():
+		db_table = 'organization_economic_activity'
+
+
+class StakeholderTypes(models.Model):
+	name = models.CharField(max_length=128)
+
+	class Meta():
+		db_table = 'stakeholder_types'
+
+
+class OrganizationStatutoryEntries(models.Model):
+	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+	stakeholder_type = models.ForeignKey(StakeholderTypes,null=True,  on_delete=models.DO_NOTHING)
+	full_name = models.CharField(null=True, max_length=128)
+	person_given_name = models.CharField(null=True, max_length=128)
+	person_family_name = models.CharField(null=True, max_length=128)
+	person_given_family_name = models.CharField(null=True, max_length=128)
+	person_prefixes = models.CharField(null=True, max_length=128)
+	person_postfixes = models.CharField(null=True, max_length=128)
+	address_formatted = models.CharField(null=True, max_length=128)
+	address_street = models.CharField(null=True, max_length=128)
+	address_reg_number = models.IntegerField(null=True)
+	address_building_number = models.CharField(null=True, max_length=128)
+	address_postal_code = models.CharField(null=True, max_length=128)
+	address_municipality = models.CharField(null=True, max_length=128)
+	address_country = models.CharField(null=True, max_length=128)
+	effective_from = models.DateField()
+	effective_to = models.DateField(null=True)
+	ico = models.IntegerField(null=True)
+
+	class Meta():
+		db_table = 'organization_statutory_entries'
+
+
+class OrganizationStakeholderEntries(models.Model):
+	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+	stakeholder_type = models.ForeignKey(StakeholderTypes, on_delete=models.DO_NOTHING)
+	full_name = models.CharField(null=True, max_length=256)
+	person_given_name = models.CharField(null=True, max_length=51)
+	person_family_name = models.CharField(null=True, max_length=51)
+	person_given_family_name = models.CharField(null=True, max_length=26)
+	person_prefixes = models.CharField(null=True, max_length=17)
+	person_postfixes = models.CharField(null=True, max_length=10)
+	address_formatted = models.CharField(null=True, max_length=176)
+	address_street = models.CharField(null=True, max_length=128)
+	address_reg_number = models.IntegerField()
+	address_building_number = models.CharField(null=True, max_length=21)
+	address_postal_code = models.CharField(null=True, max_length=11)
+	address_municipality = models.CharField(null=True, max_length=128)
+	address_country = models.CharField(null=True, max_length=128)
+	address_effective_from = models.DateField(null=True)
+	address_effective_to = models.DateField(null=True)
+	address_effective_to
+	effective_from = models.DateField()
+	effective_to = models.DateField(null=True)
+	ico = models.IntegerField(null=True)
+
+	class Meta():
+		db_table = 'organization_stakeholder_entries'
+
+
+class OrganizationDepositEntries(models.Model):
+	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+	full_name = models.CharField(null=True, max_length=256)
+	person_given_name = models.CharField(null=True, max_length=51)
+	person_family_name = models.CharField(null=True, max_length=51)
+	person_given_family_name = models.CharField(null=True, max_length=26)
+	person_prefixes = models.CharField(null=True, max_length=17)
+	person_postfixes = models.CharField(null=True, max_length=10)
+	deposit_amount = models.DecimalField(max_digits=13, decimal_places=2)
+	deposit_currency = models.CharField(max_length=9)
+	deposit_type = models.CharField(max_length=256)
+	effective_from = models.DateField()
+	effective_to = models.DateField(null=True)
+
+	class Meta():
+		db_table = 'organization_deposit_entries'
+
+
 class OrganizationOtherLegalFact(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
 	body = models.TextField()
@@ -83,7 +209,8 @@ class OrganizationShare(models.Model):
 
 	class Meta():
 		db_table = 'organization_share_entries'
-					
+	
+
 #  ======= RKUV =======
 
 class EndUser(models.Model):
