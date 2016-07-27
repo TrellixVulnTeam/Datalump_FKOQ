@@ -162,6 +162,46 @@ class OrganizationDepositEntries(models.Model):
 	class Meta():
 		db_table = 'organization_deposit_entries'
 
+
+class OrganizationOtherLegalFact(models.Model):
+	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+	body = models.TextField()
+	effective_from = models.DateField()
+	effective_to = models.DateField(null=True)
+
+	class Meta():
+		db_table = 'organization_other_legal_fact_entries'
+
+
+class ShareForm(models.Model):
+	name = models.CharField(max_length=24)
+
+	class Meta():
+		db_table = 'share_forms'
+
+
+class ShareType(models.Model):
+	name = models.CharField(max_length=24)
+		
+	class Meta():
+		db_table = 'share_types'
+
+
+class OrganizationShare(models.Model):
+	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
+	share_type = models.ForeignKey(ShareType, on_delete=models.DO_NOTHING)
+	share_form = models.ForeignKey(ShareForm, null=True, on_delete=models.DO_NOTHING)
+	share_price = models.DecimalField(max_digits=13, decimal_places=2)
+	share_currency = models.CharField(max_length=8)
+	share_amount = models.BigIntegerField()
+	share_transfer = models.TextField(null=True)
+	effective_from = models.DateField()
+	effective_to = models.DateField(null=True)
+
+	class Meta():
+		db_table = 'organization_share_entries'
+	
+
 #  ======= RKUV =======
 
 class EndUser(models.Model):
