@@ -86,6 +86,17 @@ DATABASES = {
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '',
+    },
+    'datahub': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'OPTIONS': {
+                'options': '-c search_path=rpo,public'
+            },
+        'NAME': 'datahub_staging',
+        'USER': 'dennikn',
+        'PASSWORD': 'V%km5TCjuEk*',
+        'HOST': 'ekosystem.staging.slovensko.digital',
+        'PORT': '5432',
     }
 }
 
