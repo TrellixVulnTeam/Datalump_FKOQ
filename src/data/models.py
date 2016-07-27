@@ -46,7 +46,6 @@ class OrganizationAddress(models.Model):
 	class Meta():
 		db_table = 'organization_address_entries'
 
-
 class LegalForms(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
 	name = models.CharField(max_length=128)
@@ -55,7 +54,6 @@ class LegalForms(models.Model):
 
 	class Meta():
 		db_table = 'organization_legal_forms'
-
 
 class OrganizationLegalForms(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
@@ -66,7 +64,6 @@ class OrganizationLegalForms(models.Model):
 	class Meta():
 		db_table = 'organization_legal_forms_entries'
 
-
 class OrganizationLegalStatus(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
 	body = models.CharField(max_length=128)
@@ -76,13 +73,11 @@ class OrganizationLegalStatus(models.Model):
 	class Meta():
 		db_table = 'organization_legal_status_entries'
 
-
 class MainActivityCodes:
 	name = models.CharField()
 
 	class Meta():
 		db_table = 'main_activity_codes'
-
 
 class OrganizationEconomicActivity(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
@@ -95,13 +90,11 @@ class OrganizationEconomicActivity(models.Model):
 	class Meta():
 		db_table = 'organization_economic_activity'
 
-
 class StakeholderTypes(models.Model):
 	name = models.CharField(max_length=128)
 
 	class Meta():
 		db_table = 'stakeholder_types'
-
 
 class OrganizationStatutoryEntries(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
@@ -125,7 +118,6 @@ class OrganizationStatutoryEntries(models.Model):
 
 	class Meta():
 		db_table = 'organization_statutory_entries'
-
 
 class OrganizationStakeholderEntries(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
@@ -152,7 +144,6 @@ class OrganizationStakeholderEntries(models.Model):
 
 	class Meta():
 		db_table = 'organization_stakeholder_entries'
-
 
 class OrganizationDepositEntries(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
