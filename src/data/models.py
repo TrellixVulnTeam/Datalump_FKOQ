@@ -7,7 +7,7 @@ class Organization(models.Model):
 
 
 	class Meta():
-		db_table = 'organization'
+		db_table = 'organizations'
 
 
 class OrganizationIdentifier(models.Model):
@@ -17,7 +17,7 @@ class OrganizationIdentifier(models.Model):
 	effective_to = models.DateField(null=True)
 	
 	class Meta():
-		db_table = 'organization_identifier'
+		db_table = 'organization_identifier_entries'
 
 
 class OrganizationName(models.Model):
@@ -26,8 +26,8 @@ class OrganizationName(models.Model):
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
 
-	class Meta(models.Model):
-			db_table = 'organization_name'
+	class Meta():
+		db_table = 'organization_name_entries'
 
 
 class OrganizationAddress(models.Model):
@@ -42,8 +42,8 @@ class OrganizationAddress(models.Model):
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
 
-	class Meta(models.Model):
-			db_table = 'organization_address'
+	class Meta():
+		db_table = 'organization_address_entries'
 
 					
 #  ======= RKUV =======
@@ -55,22 +55,22 @@ class EndUser(models.Model):
 	public_official = models.BooleanField()
 
 	class Meta():
-		db_table = 'end_user'
+		db_table = 'end_users'
 			
 
-class Organization_EndUser(models.Model):
+class OrganizationEndUser(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
 	end_user = models.ForeignKey(EndUser, on_delete=models.DO_NOTHING)
 	valid_since = models.DateField()
 	last_change = models.DateField()
 
 	class Meta():
-		db_table = 'organization_end_user'
+		db_table = 'organization_end_user_entries'
 
 
 #  ======= otvoreneZmluvy =======
 
-class Customer(models.Model):
+class CustomerRecord(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
 	qtr_year = models.IntegerField()
 	year = models.IntegerField()
@@ -79,10 +79,10 @@ class Customer(models.Model):
 	url = models.URLField()
 
 	class Meta():
-		db_table = 'customer'
+		db_table = 'customer_records'
 
 
-class Supplier(models.Model):
+class SupplierRecord(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
 	qtr_year = models.IntegerField()
 	year = models.IntegerField()
@@ -91,7 +91,7 @@ class Supplier(models.Model):
 	url = models.URLField()
 
 	class Meta():
-		db_table = 'supplier'
+		db_table = 'supplier_records'
 
 #  ======= otvoreneSudy =======
 
@@ -103,36 +103,36 @@ class AdjudgementRecord(models.Model):
 	url = models.URLField()
 
 	class Meta():
-		db_table = 'adjudgement_record'
+		db_table = 'adjudgement_records'
 
 
 class LegislationSubarea(models.Model):
 	name = models.CharField(unique=True, max_length=128)
 
 	class Meta():
-		db_table = 'adjudgement_legislation_subarea'
+		db_table = 'legislation_subareas'
 
 
-class AdjudgementRecord_LegislationSubarea(models.Model):
+class AdjudgementRecordLegislationSubarea(models.Model):
 	adjudgement_record = models.ForeignKey(AdjudgementRecord, on_delete=models.DO_NOTHING)
 	legislation_subarea = models.ForeignKey(LegislationSubarea, on_delete=models.DO_NOTHING)
 	records_count = models.SmallIntegerField()
 
 	class Meta():
-		db_table = 'adjudgement_record_legislation_subarea'
+		db_table = 'adjudgement_record_legislation_subarea_entries'
 
 
 class AdjudgementNature(models.Model):
 	name = models.CharField(unique=True, max_length=128)
 
 	class Meta():
-		db_table = 'adjudgement_nature'
+		db_table = 'adjudgement_natures'
 
 
-class AdjudgementRecord_AdjudgementNature(models.Model):
+class AdjudgementRecordAdjudgementNature(models.Model):
 	adjudgement_record = models.ForeignKey(AdjudgementRecord, on_delete=models.DO_NOTHING)
 	adjudgement_nature = models.ForeignKey(AdjudgementNature, on_delete=models.DO_NOTHING)
 	records_count = models.SmallIntegerField()
 
 	class Meta():
-		db_table = 'adjudgement_record_adjudgement_nature'
+		db_table = 'adjudgement_record_adjudgement_nature_entries'
