@@ -3,9 +3,30 @@ from django.db import models
 # datovy model konsolidovanych udajov
 
 
+class Esu2010Code(models.Model):
+	name = models.CharField(max_length=128)
+	created = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
+
+	class Meta():
+		db_table = 'esu2010_codes'
+
+
+class MainActivityCode(models.Model):
+	name = models.CharField(max_length=128)
+	created = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
+
+	class Meta():
+		db_table = 'main_activity_codes'
+
+
+
 class Organization(models.Model):
 	established_on = models.DateField()
 	terminated_on = models.DateField(null=True)
+	esu2010_code = models.ForeignKey(Esu2010Code, on_delete=models.DO_NOTHING)
+	main_activity_code = models.ForeignKey(MainActivityCode, on_delete=models.DO_NOTHING)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 
