@@ -20,7 +20,8 @@ class OrganizationIdentifier(models.Model):
 	effective_to = models.DateField(null=True)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
-	
+	a = 'a'
+
 	class Meta():
 		db_table = 'organization_identifier_entries'
 
