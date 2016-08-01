@@ -4,6 +4,7 @@ from urllib.request import HTTPCookieProcessor
 from http.cookiejar import CookieJar
 from bs4 import BeautifulSoup
 
+
 rkuv_url = 'https://www.uvo.gov.sk/register-konecnych-uzivatelov-vyhod-427.html?page=1&limit=80&sort=nazov&sort-dir=ASC&ext=0&ico=&nazov=&obec='
 base = 'https://www.uvo.gov.sk'
 
@@ -14,51 +15,18 @@ def connect(url):
     data = BeautifulSoup(page,"html.parser")
     return data
 
-def getLink(soup):
-    ret = 0
-    for tag in soup.find_all('tr'):
-        match = re.findall('onclick', str(tag))
-        if len(match) > 0:
-            ret = tag
-    return str(ret).split()
+def get_end_users(soup):
+    #table = soup.findAll('table', {'class': 'table table-striped table-data'})
+    #trs = soup.find_all('tr')
+    #trs = soup.tr
+    #print(trs.contents[0])
 
-def getSoup(rkuv_url):
-    tmp = getLink(connect(rkuv_url))
 
-    tmp = tmp[3].split('\'')
-    link = tmp[1]
 
-    return connect(base + link)
-
-def getPersons(ico):
-    soup = getSoup(ico)
-    table = str(soup.findAll('table', {'class': 'table table-striped table-data'}))
-
-    tmp = table.split('<td>')[1:]
-    new_arr = []
-    for out in tmp:
-        ret = out.replace('\n', '')
-        ret = ret.replace('</td>', '')
-        ret = ret.replace('<br/>', ' ')
-        ret = ret.replace('\r', '')
-        new_arr.append(ret)
-
-    persons = []
-    for i in range(0, len(new_arr), 4):
-        tmp = []
-        tmp.append(new_arr[i])
-        tmp.append(new_arr[i + 1])
-        tmp.append(new_arr[i + 2].replace('  ', ''))
-        tmp.append(new_arr[i + 3][:3])
-        persons.append(tmp)
-    return persons
 
 #vrati pocet stranok na rkuv
-def get_number_of_pages():
+def get_number_of_pages(soup):
     number_of_pages = 0
-
-    soup = connect(rkuv_url)
-
     #div, kde je select box + pocet_stranok
     div = soup.find('div', {"class": "pag-page"})
 
@@ -76,15 +44,27 @@ def get_number_of_pages():
 
 def getRKUV():
     return_list = []
-    number_of_pages = get_number_of_pages()
+    soup = connect(rkuv_url)
+   #number_of_pages = get_number_of_pages(soup)
+    number_of_pages = 1
 
-    #for i in range(0,number_of_pages):
+
+    for i in range(0,number_of_pages):
+        trs = soup.find_all('tr')
+        links = [str(base) + str(tr.get('onclick'))[24:-2] for tr in trs]
+
+        for link in links:
+            link_soup = connect(link)
+            end_users = get_end_users(link_soup)
+
+
 
     #for i in range(0,number_of_pages):
         # get_all_links_from_page
-        # get_soup_for_record
-        # get_data
-        # insert
+            # for all links
+            # get_soup_for_record
+            # get_data
+            # insert
 
     return return_list
 
