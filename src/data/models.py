@@ -4,17 +4,17 @@ from django.db import models
 
 class Esu2010Code(models.Model):
 	name = models.CharField(max_length=128)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'esu2010_codes'
 
 
 class MainActivityCode(models.Model):
-	name = models.CharField(max_length=128)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	name = models.CharField(max_length=255)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'main_activity_codes'
@@ -23,10 +23,10 @@ class MainActivityCode(models.Model):
 class Organization(models.Model):
 	established_on = models.DateField()
 	terminated_on = models.DateField(null=True)
-	esu2010_code = models.ForeignKey(Esu2010Code, on_delete=models.DO_NOTHING)
-	main_activity_code = models.ForeignKey(MainActivityCode, on_delete=models.DO_NOTHING)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	esu2010_code = models.ForeignKey(Esu2010Code, null=True, on_delete=models.DO_NOTHING)
+	main_activity_code = models.ForeignKey(MainActivityCode, null=True, on_delete=models.DO_NOTHING)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organizations'
@@ -34,12 +34,11 @@ class Organization(models.Model):
 
 class OrganizationIdentifier(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
-	ipo = models.IntegerField()
+	ipo = models.IntegerField(null=True)
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
-
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 	class Meta():
 		db_table = 'organization_identifier_entries'
 
@@ -49,8 +48,8 @@ class OrganizationName(models.Model):
 	name = models.CharField(max_length=512)
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_name_entries'
@@ -58,17 +57,17 @@ class OrganizationName(models.Model):
 
 class OrganizationAddress(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
-	formatted_address = models.CharField(max_length=256)
-	street = models.CharField(max_length=128)
-	reg_number = models.IntegerField()
-	building_number = models.CharField(max_length=128)
-	postal_code = models.CharField(max_length=16)
-	municipality = models.CharField(max_length=128)
-	country = models.CharField(max_length=64)
+	formatted_address = models.CharField(null=True, max_length=256)
+	street = models.CharField(null=True, max_length=128)
+	reg_number = models.IntegerField(null=True)
+	building_number = models.CharField(null=True, max_length=128)
+	postal_code = models.CharField(null=True, max_length=16)
+	municipality = models.CharField(null=True, max_length=128)
+	country = models.CharField(null=True, max_length=64)
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_address_entries'
@@ -76,10 +75,8 @@ class OrganizationAddress(models.Model):
 class LegalForms(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
 	name = models.CharField(max_length=128)
-	effective_from = models.DateField()
-	effective_to = models.DateField()
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_legal_forms'
@@ -89,8 +86,8 @@ class OrganizationLegalForms(models.Model):
 	legal_form_id = models.ForeignKey(LegalForms, null=True, on_delete=models.DO_NOTHING)
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_legal_forms_entries'
@@ -100,8 +97,8 @@ class OrganizationLegalStatus(models.Model):
 	body = models.CharField(max_length=128)
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_legal_status_entries'
@@ -121,8 +118,8 @@ class OrganizationEconomicActivity(models.Model):
 	effective_to = models.DateField(null=True)
 	suspended_from = models.DateField(null=True)
 	suspended_to = models.DateField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_economic_activity'
@@ -130,8 +127,8 @@ class OrganizationEconomicActivity(models.Model):
 
 class StakeholderTypes(models.Model):
 	name = models.CharField(max_length=128)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'stakeholder_types'
@@ -141,6 +138,7 @@ class OrganizationStatutoryEntries(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
 	stakeholder_type = models.ForeignKey(StakeholderTypes,null=True,  on_delete=models.DO_NOTHING)
 	full_name = models.CharField(null=True, max_length=128)
+	person_formatted_name = models.CharField(null=True, max_length=128)
 	person_given_name = models.CharField(null=True, max_length=128)
 	person_family_name = models.CharField(null=True, max_length=128)
 	person_given_family_name = models.CharField(null=True, max_length=128)
@@ -156,8 +154,8 @@ class OrganizationStatutoryEntries(models.Model):
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
 	ico = models.IntegerField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_statutory_entries'
@@ -167,6 +165,7 @@ class OrganizationStakeholderEntries(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
 	stakeholder_type = models.ForeignKey(StakeholderTypes, on_delete=models.DO_NOTHING)
 	full_name = models.CharField(null=True, max_length=256)
+	person_formatted_name = models.CharField(null=True, max_length=128)
 	person_given_name = models.CharField(null=True, max_length=51)
 	person_family_name = models.CharField(null=True, max_length=51)
 	person_given_family_name = models.CharField(null=True, max_length=26)
@@ -174,19 +173,18 @@ class OrganizationStakeholderEntries(models.Model):
 	person_postfixes = models.CharField(null=True, max_length=10)
 	address_formatted = models.CharField(null=True, max_length=176)
 	address_street = models.CharField(null=True, max_length=128)
-	address_reg_number = models.IntegerField()
+	address_reg_number = models.IntegerField(null=True)
 	address_building_number = models.CharField(null=True, max_length=21)
 	address_postal_code = models.CharField(null=True, max_length=11)
 	address_municipality = models.CharField(null=True, max_length=128)
 	address_country = models.CharField(null=True, max_length=128)
 	address_effective_from = models.DateField(null=True)
 	address_effective_to = models.DateField(null=True)
-	address_effective_to
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
 	ico = models.IntegerField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_stakeholder_entries'
@@ -202,11 +200,11 @@ class OrganizationDepositEntries(models.Model):
 	person_postfixes = models.CharField(null=True, max_length=10)
 	deposit_amount = models.DecimalField(max_digits=13, decimal_places=2)
 	deposit_currency = models.CharField(max_length=9)
-	deposit_type = models.CharField(max_length=256)
+	deposit_type = models.CharField(null=True, max_length=256)
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_deposit_entries'
@@ -217,8 +215,8 @@ class OrganizationOtherLegalFact(models.Model):
 	body = models.TextField()
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_other_legal_fact_entries'
@@ -226,8 +224,8 @@ class OrganizationOtherLegalFact(models.Model):
 
 class ShareForm(models.Model):
 	name = models.CharField(max_length=24)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'share_forms'
@@ -235,8 +233,8 @@ class ShareForm(models.Model):
 
 class ShareType(models.Model):
 	name = models.CharField(max_length=24)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'share_types'
@@ -252,8 +250,8 @@ class OrganizationShare(models.Model):
 	share_transfer = models.TextField(null=True)
 	effective_from = models.DateField()
 	effective_to = models.DateField(null=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_share_entries'
@@ -266,8 +264,8 @@ class EndUser(models.Model):
 	address = models.CharField(max_length=128)
 	identification = models.CharField(max_length=48)
 	public_official = models.BooleanField()
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'end_users'
@@ -278,8 +276,8 @@ class OrganizationEndUser(models.Model):
 	end_user = models.ForeignKey(EndUser, on_delete=models.DO_NOTHING)
 	valid_since = models.DateField()
 	last_change = models.DateField()
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'organization_end_user_entries'
@@ -294,8 +292,8 @@ class CustomerRecord(models.Model):
 	sum_money = models.DecimalField(max_digits=13, decimal_places=2)
 	sum_contracts = models.IntegerField()
 	url = models.URLField()
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'customer_records'
@@ -308,8 +306,8 @@ class SupplierRecord(models.Model):
 	sum_money = models.DecimalField(max_digits=13, decimal_places=2)
 	sum_contracts = models.IntegerField()
 	url = models.URLField()
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'supplier_records'
@@ -322,8 +320,8 @@ class AdjudgementRecord(models.Model):
 	year = models.IntegerField()
 	records_count = models.IntegerField()
 	url = models.URLField()
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'adjudgement_records'
@@ -331,8 +329,8 @@ class AdjudgementRecord(models.Model):
 
 class LegislationSubarea(models.Model):
 	name = models.CharField(unique=True, max_length=128)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'legislation_subareas'
@@ -342,8 +340,8 @@ class AdjudgementRecordLegislationSubarea(models.Model):
 	adjudgement_record = models.ForeignKey(AdjudgementRecord, on_delete=models.DO_NOTHING)
 	legislation_subarea = models.ForeignKey(LegislationSubarea, on_delete=models.DO_NOTHING)
 	records_count = models.SmallIntegerField()
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'adjudgement_record_legislation_subarea_entries'
@@ -351,8 +349,8 @@ class AdjudgementRecordLegislationSubarea(models.Model):
 
 class AdjudgementNature(models.Model):
 	name = models.CharField(unique=True, max_length=128)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'adjudgement_natures'
@@ -362,8 +360,8 @@ class AdjudgementRecordAdjudgementNature(models.Model):
 	adjudgement_record = models.ForeignKey(AdjudgementRecord, on_delete=models.DO_NOTHING)
 	adjudgement_nature = models.ForeignKey(AdjudgementNature, on_delete=models.DO_NOTHING)
 	records_count = models.SmallIntegerField()
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
+	created_at = models.DateTimeField(auto_now_add=True, null=True)
+	updated_at = models.DateTimeField(auto_now=True, null=True)
 
 	class Meta():
 		db_table = 'adjudgement_record_adjudgement_nature_entries'
