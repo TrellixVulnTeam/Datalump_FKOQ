@@ -1,5 +1,4 @@
 from django.db import models
-
 # datovy model konsolidovanych udajov
 
 
@@ -21,7 +20,6 @@ class MainActivityCode(models.Model):
 		db_table = 'main_activity_codes'
 
 
-
 class Organization(models.Model):
 	established_on = models.DateField()
 	terminated_on = models.DateField(null=True)
@@ -41,7 +39,7 @@ class OrganizationIdentifier(models.Model):
 	effective_to = models.DateField(null=True)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
-	
+
 	class Meta():
 		db_table = 'organization_identifier_entries'
 
@@ -108,11 +106,13 @@ class OrganizationLegalStatus(models.Model):
 	class Meta():
 		db_table = 'organization_legal_status_entries'
 
+
 class MainActivityCodes:
 	name = models.CharField()
 
 	class Meta():
 		db_table = 'main_activity_codes'
+
 
 class OrganizationEconomicActivity(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
@@ -127,6 +127,7 @@ class OrganizationEconomicActivity(models.Model):
 	class Meta():
 		db_table = 'organization_economic_activity'
 
+
 class StakeholderTypes(models.Model):
 	name = models.CharField(max_length=128)
 	created = models.DateTimeField(auto_now_add=True)
@@ -134,6 +135,7 @@ class StakeholderTypes(models.Model):
 
 	class Meta():
 		db_table = 'stakeholder_types'
+
 
 class OrganizationStatutoryEntries(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
@@ -159,6 +161,7 @@ class OrganizationStatutoryEntries(models.Model):
 
 	class Meta():
 		db_table = 'organization_statutory_entries'
+
 
 class OrganizationStakeholderEntries(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
@@ -187,6 +190,7 @@ class OrganizationStakeholderEntries(models.Model):
 
 	class Meta():
 		db_table = 'organization_stakeholder_entries'
+
 
 class OrganizationDepositEntries(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
@@ -233,7 +237,7 @@ class ShareType(models.Model):
 	name = models.CharField(max_length=24)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
-		
+
 	class Meta():
 		db_table = 'share_types'
 
@@ -253,7 +257,7 @@ class OrganizationShare(models.Model):
 
 	class Meta():
 		db_table = 'organization_share_entries'
-	
+
 
 #  ======= RKUV =======
 
@@ -267,7 +271,7 @@ class EndUser(models.Model):
 
 	class Meta():
 		db_table = 'end_users'
-			
+
 
 class OrganizationEndUser(models.Model):
 	organization = models.ForeignKey(Organization, on_delete=models.DO_NOTHING)
